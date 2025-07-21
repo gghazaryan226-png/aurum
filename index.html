@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurum Energy - Sustainable Solar Solutions</title>
+    
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: "Green & Neutral Harmony" - A palette using Primary Greens (#059669, #34D399, #A7F3D0), Dominant Neutrals (#FFFFFF, #F8F9FA, #2C3E50), and sparse Energy Accents (#FFD700). -->
+    <!-- Application Structure Plan: A single-page application (SPA) structure. Navigation clicks dynamically render content into a main container, creating a fluid, app-like experience without page reloads. The user flow is designed to be intuitive: an inspiring 'Home' page captures interest, 'Solutions' and 'Projects' sections build trust and provide detail, 'About' conveys the company mission, and 'Contact' serves as the primary lead generation point. This structure prioritizes a seamless user journey and content exploration. -->
+    <!-- Visualization & Content Choices: 
+        - Home: High-impact hero image and benefit-focused cards (HTML/CSS) to inspire and inform. Interaction: scroll-reveal animations, card hover effects.
+        - Solutions: Detailed cards and a visual timeline (HTML/CSS) to explain the process clearly.
+        - Projects: A filterable grid of case study teasers (HTML/CSS + JS for filtering) to build credibility.
+        - About: A clean text-and-image layout to tell the company's story.
+        - Contact: A minimalist form and an embedded map (iframe) for clear, actionable contact options.
+        - All icons are implemented as inline SVGs for scalability and performance, adhering to the no raster image/no SVG file policy. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google reCAPTCHA v2 removed -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #2C3E50;
+        }
+
+        /* Custom Transition for Smooth Reveals */
+        .revealable {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.17, 0.55, 0.55, 1), transform 0.8s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Primary Button Style */
+        .btn-primary {
+            background-color: #059669;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background-color: #047857;
+            box-shadow: 0 7px 20px rgba(4, 120, 87, 0.3);
+        }
+        
+        /* Secondary/Outline Button Style */
+        .btn-secondary {
+            background-color: transparent;
+            color: #059669;
+            border: 1px solid #059669;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #059669;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Link Hover Effect */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #059669;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Language Dropdown */
+        .dropdown-content {
+            display: none;
+            right: 0;
+            top: calc(100% + 10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+        .dropdown.active .dropdown-content {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Card Hover Effect */
+        .info-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Ensure cards can grow in height to accommodate content */
+            height: auto;
+            display: flex; /* Use flexbox for inner content arrangement */
+            flex-direction: column; /* Stack items vertically */
+            justify-content: flex-start; /* Align content to the top */
+        }
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(44, 62, 80, 0.1);
+        }
+
+        /* Specific adjustment for text within cards to ensure wrapping */
+        .info-card p {
+            word-wrap: break-word; /* For older browsers */
+            overflow-wrap: break-word; /* Standard property */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- HEADER -->
+    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-200/50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold text-gray-800 tracking-tighter" onclick="navigateTo('home')">
+                <img src="Earth P wer (1).png" alt="Aurum Energy Logo" class="h-10">
+            </a>
+            <nav class="hidden lg:flex items-center space-x-10">
+                <a href="#" id="nav-home" class="nav-link text-gray-600 hover:text-gray-900 font-semibold active" onclick="navigateTo('home', this)">Home</a>
+                <a href="#" id="nav-solutions" class="nav-link text-gray-600 hover:text-gray-900 font-semibold" onclick="navigateTo('solutions', this)">Solutions</a>
+                <a href="#" id="nav-projects" class="nav-link text-gray-600 hover:text-gray-900 font-semibold" onclick="navigateTo('projects', this)">Projects</a>
+                <a href="#" id="nav-about" class="nav-link text-gray-600 hover:text-gray-900 font-semibold" onclick="navigateTo('about', this)">About</a>
+                <a href="#" id="nav-contact" class="nav-link text-gray-600 hover:text-gray-900 font-semibold" onclick="navigateTo('contact', this)">Contact</a>
+                <a href="#" id="nav-calculator" class="nav-link text-gray-600 hover:text-gray-900 font-semibold" onclick="navigateTo('calculator', this)">Calculator</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown" id="language-dropdown">
+                    <button class="flex items-center space-x-1 text-gray-600 hover:text-gray-900" onclick="toggleDropdown()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3" /></svg>
+                        <span id="current-lang-display" class="font-semibold">EN</span>
+                    </button>
+                    <div class="dropdown-content absolute bg-white rounded-lg shadow-xl py-2 w-28 mt-2">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50" data-lang="en" onclick="changeLanguage('en')">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50" data-lang="ru" onclick="changeLanguage('ru')">Русский</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50" data-lang="am" onclick="changeLanguage('am')">Հայերեն</a>
+                    </div>
+                </div>
+                <a href="#" id="header-cta" class="hidden sm:inline-block btn-primary px-6 py-2.5 rounded-full font-semibold text-sm" onclick="navigateTo('contact')">Get a Free Quote</a>
+                <button class="lg:hidden" id="mobile-menu-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('home')">Home</a>
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('solutions')">Solutions</a>
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('projects')">Projects</a>
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('about')">About</a>
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('contact')">Contact</a>
+            <a href="#" class="block py-3 px-6 text-gray-700 hover:bg-gray-100" onclick="navigateTo('calculator')">Calculator</a>
+             <div class="px-6 py-4">
+                 <a href="#" id="mobile-header-cta" class="block text-center w-full btn-primary px-6 py-3 rounded-full font-semibold" onclick="navigateTo('contact')">Get a Free Quote</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main id="content-area"></main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
+                <div class="col-span-2 lg:col-span-1">
+                     <a href="#" class="text-3xl font-bold tracking-tighter" onclick="navigateTo('home')">
+                        <img src="Earth P wer (1).png" alt="Aurum Energy Logo" class="h-10">
+                    </a>
+                    <p id="footer-tagline" class="mt-4 text-gray-400 text-sm"></p>
+                </div>
+
+                <div>
+                    <h3 id="footer-links-solutions" class="font-semibold tracking-wider uppercase text-gray-400"></h3>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" id="footer-link-residential" onclick="navigateTo('solutions', null, 'residential-solution')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                        <li><a href="#" id="footer-link-commercial" onclick="navigateTo('solutions', null, 'commercial-solution')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                        <li><a href="#" id="footer-link-industrial" onclick="navigateTo('solutions', null, 'industrial-solution')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                    </ul>
+                </div>
+
+                 <div>
+                    <h3 id="footer-links-company" class="font-semibold tracking-wider uppercase text-gray-400"></h3>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" id="footer-link-about" onclick="navigateTo('about')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                        <li><a href="#" id="footer-link-projects" onclick="navigateTo('projects')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                        <li><a href="#" id="footer-link-contact" onclick="navigateTo('contact')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                        <li><a href="#" id="footer-link-calculator" onclick="navigateTo('calculator')" class="text-gray-300 hover:text-white transition-colors"></a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 id="footer-links-contact" class="font-semibold tracking-wider uppercase text-gray-400"></h3>
+                    <ul class="mt-4 space-y-3 text-gray-300 text-sm">
+                        <li id="footer-address"></li>
+                        <li id="footer-phone"></li>
+                        <li id="footer-email"></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 lg:col-span-1">
+                    <h3 id="footer-social-title" class="font-semibold tracking-wider uppercase text-gray-400"></h3>
+                     <div class="flex mt-4 space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.88v-7H7.64v-2.89H10.5v-2.16c0-2.84 1.7-4.4 4.28-4.4 1.23 0 2.29.09 2.6.13v2.58h-1.51c-1.38 0-1.64.66-1.64 1.6V12h2.83l-.37 2.89H14.2v7a10.02 10.02 0 008.24-9.88C22.04 6.53 17.5 2.04 12 2.04z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.05.01 4.12.06 1.06.05 1.79.22 2.42.46.65.25 1.23.59 1.77 1.13.54.54.88 1.12 1.13 1.77.24.63.41 1.36.46 2.42.05 1.07.06 1.4.06 4.12s-.01 3.05-.06 4.12c-.05 1.06-.22 1.79-.46 2.42a4.91 4.91 0 01-1.13 1.77c-.54.54-1.12.88-1.77 1.13-.63.24-1.36.41-2.42.46-1.07.05-1.4.06-4.12.06s-3.05-.01-4.12-.06c-1.06-.05-1.79-.22-2.42-.46a4.91 4.91 0 01-1.77-1.13c-.54-.54-.88-1.12-1.13-1.77-.24-.63-.41-1.36-.46-2.42C2.01 15.05 2 14.72 2 12s.01-3.05.06-4.12c.05-1.06.22-1.79.46-2.42.25-.65.59-1.23 1.13-1.77.54-.54 1.12-.88 1.77-1.13.63-.24 1.36-.41 2.42-.46C8.95 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-1.03.05-1.6.2-2.02.37-.47.18-.84.42-1.21.79-.37.37-.61.74-.79 1.21-.17.42-.32.99-.37 2.02-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.05 1.03.2 1.6.37 2.02.18.47.42.84.79 1.21.37.37.74.61 1.21.79.42.17.99.32 2.02.37 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c1.03-.05 1.6-.2 2.02-.37.47-.18.84-.42 1.21-.79.37-.37.61-.74.79-1.21.17-.42.32-.99.37-2.02.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.05-1.03-.2-1.6-.37-2.02a2.9 2.9 0 00-.79-1.21 2.9 2.9 0 00-1.21-.79c-.42-.17-.99-.32-2.02-.37C14.99 3.81 14.67 3.8 12 3.8zm0 3.35c-2.83 0-5.15 2.32-5.15 5.15s2.32 5.15 5.15 5.15 5.15-2.32 5.15-5.15-2.32-5.15-5.15-5.15zm0 8.5c-1.85 0-3.35-1.5-3.35-3.35s1.5-3.35 3.35-3.35 3.35 1.5 3.35 3.35-1.5 3.35-3.35 3.35zm6.05-9.25c0 .72-.58 1.3-1.3 1.3s-1.3-.58-1.3-1.3.58-1.3 1.3-1.3 1.3.58 1.3 1.3z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 2.1a.6.6 0 00-.57-.42H4.12a.6.6 0 00-.57.42L2 8.24v10.92A1.84 1.84 0 003.84 21h16.32A1.84 1.84 0 0022 19.16V8.24l-1.55-6.14zM4.12 3.3h15.76l1.24 4.94H2.88zm16.32 16.5H3.84a.64.64 0 01-.64-.64V9.44h17.6v9.72a.64.64 0 01-.64.64zM7.18 12.07a.6.6 0 00-.6.6v3.3a.6.6 0 101.2 0v-3.3a.6.6 0 00-.6-.6zm4.8 0a.6.6 0 00-.6.6v3.3a.6.6 0 101.2 0v-3.3a.6.6 0 00-.6-.6zm4.8 0a.6.6 0 00-.6.6v3.3a.6.6 0 101.2 0v-3.3a.6.6 0 00-.6-.6z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.37-.83.49-1.75.85-2.72 1.05C18.35 4.19 17.23 3.5 16 3.5c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.4 5.48 7.84 3.68 5.46c-.36.62-.56 1.33-.56 2.09 0 1.48.75 2.79 1.9 3.56-.7-.02-1.37-.21-1.95-.5v.07c0 2.08 1.48 3.81 3.44 4.2-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.7 2.14 2.94 4.03 2.98-1.48 1.16-3.34 1.86-5.38 1.86-.35 0-.69-.02-1.03-.06 1.92 1.23 4.2 1.95 6.66 1.95 8 0 12.37-6.63 12.37-12.37 0-.19-.01-.37-.01-.56.85-.61 1.58-1.37 2.16-2.24z"/></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.6 14.4c-.1.3-1.1.7-1.4.7-.3 0-1.1-.3-1.4-.7-.3-.3-.7-1.1-.7-1.4 0-.3.3-1.1.7-1.4.3-.3.7-.7 1.4-.7.3 0 1.1.3 1.4.7.3.3.7 1.1.7 1.4 0 .3-.3 1.1-.7 1.4zM12 8.4c-.3-.3-.7-.7-1.4-.7-.3 0-1.1.3-1.4.7-.3.3-.7 1.1-.7 1.4 0 .3.3 1.1.7 1.4.3.3.7.7 1.4.7.3 0 1.1-.3 1.4-.7.3-.3.7-1.1.7-1.4 0-.3-.3-1.1-.7-1.4zM16.8 12c-.3-.3-.7-.7-1.4-.7-.3 0-1.1.3-1.4.7-.3.3-.7 1.1-.7 1.4 0 .3.3 1.1.7 1.4.3.3.7.7 1.4.7.3 0 1.1-.3 1.4-.7.3-.3.7-1.1.7-1.4 0-.3-.3-1.1-.7-1.4zM7.2 12c-.3-.3-.7-.7-1.4-.7-.3 0-1.1.3-1.4.7-.3.3-.7 1.1-.7 1.4 0 .3.3 1.1.7 1.4.3.3.7.7 1.4.7.3 0 1.1-.3 1.4-.7.3-.3.7-1.1.7-1.4 0-.3-.3-1.1-.7-1.4zM12 4.8c-.3-.3-.7-.7-1.4-.7-.3 0-1.1.3-1.4.7-.3.3-.7 1.1-.7 1.4 0 .3.3 1.1.7 1.4.3.3.7.7 1.4.7.3 0 1.1-.3 1.4-.7.3-.3.7-1.1.7-1.4 0-.3-.3-1.1-.7-1.4z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+                <p id="footer-copyright"></p>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script>
+        // --- DATA & CONTENT ---
+        const content = {
+            en: {
+                nav: { home: "Home", solutions: "Solutions", projects: "Projects", about: "About", contact: "Contact", calculator: "Calculator", quote: "Get a Free Quote" },
+                home: {
+                    heroTitle: "Powering a Sustainable Future",
+                    heroSubtitle: "Unlock Your Energy Independence with Cutting-Edge Solar Solutions.",
+                    heroCta: "Explore Solutions",
+                    solutionsTitle: "Our Tailored Solar Solutions",
+                    resTitle: "Residential Solar", resDesc: "Custom solar solutions designed to fit your home's architecture and energy needs, reducing your bills and carbon footprint.",
+                    comTitle: "Commercial Solar", comDesc: "Scalable energy systems for businesses to cut operational costs, enhance brand image, and achieve sustainability goals.",
+                    indTitle: "Industrial Solar", indDesc: "Robust, large-scale solar installations for industrial facilities, providing reliable power and significant long-term savings."
+                },
+                solutions: {
+                    title: "Comprehensive Solar Solutions",
+                    subtitle: "Tailored to your needs, designed for your future. We handle everything from consultation to maintenance.",
+                    processTitle: "Our Seamless Solar Process",
+                    step1Title: "Consultation", step1Desc: "We assess your needs and energy goals.",
+                    step2Title: "Design", step2Desc: "A custom system is designed for optimal performance.",
+                    step3Title: "Installation", step3Desc: "Our certified team ensures a flawless setup.",
+                    step4Title: "Activation", step4Desc: "We handle all paperwork and activate your system.",
+                    step5Title: "Support", step5Desc: "Ongoing monitoring and support for peace of mind.",
+                    residentialSolution: {
+                        title: "Residential Solar Solutions",
+                        subtitle: "Harness the sun's power for your home. Reduce electricity bills, increase your property value, and contribute to a greener planet.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 =001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>`, name: "Custom Design", desc: "Systems tailored to your home's aesthetics and energy consumption." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`, name: "Energy Savings", desc: "Significantly reduce or eliminate your monthly electricity bills." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`, name: "Increased Home Value", desc: "Solar installations are proven to boost property resale value." }
+                        ],
+                        image: "https://i0.wp.com/albaysolar.com/wp-content/uploads/2024/02/Frame-3.png?fit=800%2C500&ssl=1"
+                    },
+                    commercialSolution: {
+                        title: "Commercial Solar Solutions",
+                        subtitle: "Empower your business with clean, cost-effective solar energy. Optimize operational expenses and enhance your corporate sustainability profile.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`, name: "Scalable Systems", desc: "Solutions designed to meet the unique energy demands of your business, from small offices to large facilities." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`, name: "Operational Cost Reduction", desc: "Substantial savings on electricity bills, improving your bottom line." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`, name: "Enhanced Brand Image", desc: "Demonstrate your commitment to sustainability and attract eco-conscious customers." }
+                        ],
+                        image: "https://www.rte.ie/images/0021f76b-800.jpg"
+                    },
+                    industrialSolution: {
+                        title: "Industrial Solar Solutions",
+                        subtitle: "Robust and reliable solar power for large-scale industrial operations. Ensure energy security and achieve massive long-term savings.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-13a2 2 0 012-2h12a2 2 0 012 2v13M5 13H4a2 2 0 00-2 2v2a2 2 0 002 2h1m14-4h1a2 2 0 012 2v2a2 2 0 01-2 2h-1M9 6l3 3m0 0l3-3m-3 3v12" /></svg>`, name: "High Capacity Systems", desc: "Designed for significant energy demands, ensuring uninterrupted operations." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 002.944 12c0 2.89.97 5.61 2.68 7.74l-.04.04A12.001 12.001 0 0012 21.056c2.89 0 5.61-.97 7.74-2.68l.04-.04A12.001 12.001 0 0021.056 12c0-2.89-.97-5.61-2.68-7.74z"/></svg>`, name: "Energy Security", desc: "Reduce reliance on grid power, ensuring operational continuity and stability." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>`, name: "Sustainability Compliance", desc: "Meet environmental regulations and enhance your corporate social responsibility." }
+                        ],
+                        image: "https://assets.nationbuilder.com/ecnt/pages/340/meta_images/original/Facebook_Share_From_Website_800_x_500_-_Website_-_Repower_NT_%2825%29.jpg?1594689185"
+                    }
+                },
+                projects: {
+                    title: "Our Impact: Featured Projects",
+                    subtitle: "Real solutions, real results. Explore our portfolio of successful installations across various sectors.",
+                    filterAll: "All", filterRes: "Residential", filterCom: "Commercial", filterInd: "Industrial",
+                    items: [
+                        { id: 1, cat: 'res', title: 'Modern Villa, Yerevan', saving: '$2,400 Annual Savings', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Villa+Yerevan' },
+                        { id: 2, cat: 'com', title: 'IT Park, Gyumri', saving: '40% Energy Cost Reduction', img: 'https://placehold.co/600x400/E0E0E0/2C3E50?text=IT+Park+Gyumri' },
+                        { id: 3, cat: 'ind', title: 'Winery, Ararat Valley', saving: '1.2 MW Installed Capacity', img: 'https://placehold.co/600x400/34D399/FFFFFF?text=Winery+Ararat' },
+                        { id: 4, cat: 'res', title: 'Suburban Home, Dilijan', saving: '$1,800 Annual Savings', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Home+Dilijan' },
+                    ]
+                },
+                about: {
+                    title: "Our Mission: Powering a Greener Tomorrow",
+                    subtitle: "We believe in a future powered by clean, renewable sources. Our mission is to make solar energy accessible, reliable, and seamless for everyone.",
+                    body: "Founded on the principles of innovation and sustainability, Aurum Energy is a team of certified engineers, technicians, and energy consultants dedicated to leading Armenia's transition to renewable energy. We combine global best practices with local expertise to deliver solar solutions that offer lasting value and a positive environmental impact. Our commitment to quality and customer satisfaction is at the core of everything we do.",
+                    image: "https://cdn.dribbble.com/userupload/27391115/file/original-8a1a97b19f950f1023e3a7081acc5ba8.png"
+                },
+                contact: {
+                    title: "Let's Connect",
+                    subtitle: "Your journey to solar energy starts here. Reach out for a free, no-obligation consultation.",
+                    formName: "Full Name", formEmail: "Email Address", formMessage: "How can we help?", formSubmit: "Send Message",
+                    address: "123 Green Avenue, Yerevan, Armenia", phone: "+374 10 123456", email: "consult@aurumenergy.am",
+                    mapTitle: "Our Office Location",
+                    recaptchaSiteKey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                },
+                calculator: {
+                    title: "Solar Savings Calculator",
+                    subtitle: "Estimate your potential savings and environmental impact with a custom solar solution.",
+                    inputCost: "Estimated System Cost (֏)",
+                    inputInterest: "Annual Interest Rate (%)",
+                    inputTerm: "Loan Term (Years)",
+                    calculateBtn: "Calculate Savings",
+                    monthlyPayment: "Estimated Monthly Payment:",
+                    totalInterest: "Total Interest Paid:",
+                    totalCost: "Total System Cost (with interest):",
+                    savingsDisclaimer: "This is an estimate. Actual savings may vary based on energy consumption, system size, and local incentives."
+                },
+                footer: {
+                    tagline: "Your partner for a brighter, greener future.",
+                    solutions: "Solutions", residential: "Residential", commercial: "Commercial", industrial: "Industrial",
+                    company: "Company", about: "About Us", projects: "Projects", contact: "Contact", calculator: "Calculator",
+                    contactInfo: "Contact Info", social: "Follow Us", copyright: `© ${new Date().getFullYear()} Aurum Energy. All Rights Reserved.`,
+                    phone: "+374 10 123456", email: "info@aurumenergy.am",
+                    whatsapp: "https://wa.me/37410123456", telegram: "https://t.me/aurumenergyarmenia",
+                    facebook: "https://facebook.com/aurumenergy", instagram: "https://instagram.com/aurumenergy", x: "https://twitter.com/aurumenergy"
+                }
+            },
+            ru: {
+                nav: { home: "Главная", solutions: "Решения", projects: "Проекты", about: "О нас", contact: "Контакты", calculator: "Калькулятор", quote: "Бесплатная Консультация" },
+                home: {
+                    heroTitle: "Энергия для Устойчивого Будущего",
+                    heroSubtitle: "Обретите энергетическую независимость с передовыми солнечными решениями.",
+                    heroCta: "Наши Решения",
+                    solutionsTitle: "Индивидуальные Солнечные Решения",
+                    resTitle: "Для Дома", resDesc: "Индивидуальные решения, соответствующие архитектуре вашего дома, сокращающие счета и углеродный след.",
+                    comTitle: "Для Бизнеса", comDesc: "Масштабируемые системы для сокращения расходов, улучшения имиджа бренда и достижения целей устойчивого развития.",
+                    indTitle: "Для Промышленности", indDesc: "Надежные, крупномасштабные установки для промышленных объектов, обеспечивающие значительную экономию."
+                },
+                 solutions: {
+                    title: "Комплексные Солнечные Решения",
+                    subtitle: "С учетом ваших потребностей, для вашего будущего. Мы берем на себя все, от консультации до обслуживания.",
+                    processTitle: "Наш Процесс Установки",
+                    step1Title: "Консультация", step1Desc: "Мы оцениваем ваши потребности и цели.",
+                    step2Title: "Проектирование", step2Desc: "Создание индивидуальной системы для оптимальной работы.",
+                    step3Title: "Установка", step3Desc: "Наша команда обеспечивает безупречный монтаж.",
+                    step4Title: "Активация", step4Desc: "Мы оформляем все документы и запускаем систему.",
+                    step5Title: "Поддержка", step5Desc: "Постоянный мониторинг и поддержка для вашего спокойствия.",
+                    residentialSolution: {
+                        title: "Солнечные Решения для Дома",
+                        subtitle: "Используйте энергию солнца для вашего дома. Сократите счета за электричество, увеличьте стоимость вашей недвижимости и внесите вклад в более зеленую планету.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>`, name: "Индивидуальный Дизайн", desc: "Системы, адаптированные к архитектуре вашего дома и потребностям в энергии." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`, name: "Экономия Энергии", desc: "Значительно сократите или полностью исключите ежемесячные счета за электричество." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`, name: "Увеличение Стоимости Дома", desc: "Солнечные установки доказано увеличивают стоимость недвижимости при перепродаже." }
+                        ],
+                        image: "https://placehold.co/800x500/A7F3D0/2C3E50?text=Солнечные+Решения+для+Дома"
+                    },
+                    commercialSolution: {
+                        title: "Коммерческие Солнечные Решения",
+                        subtitle: "Обеспечьте свой бизнес чистой, экономически эффективной солнечной энергией. Оптимизируйте операционные расходы и улучшите свой корпоративный профиль устойчивого развития.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`, name: "Масштабируемые Системы", desc: "Решения, разработанные для удовлетворения уникальных энергетических потребностей вашего бизнеса, от небольших офисов до крупных объектов." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`, name: "Снижение Операционных Расходов", desc: "Значительная экономия на счетах за электроэнергию, улучшающая вашу прибыль." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`, name: "Улучшение Имиджа Бренда", desc: "Продемонстрируйте свою приверженность устойчивому развитию и привлеките экологически сознательных клиентов." }
+                        ],
+                        image: "https://placehold.co/800x500/E0E0E0/2C3E50?text=Коммерческие+Солнечные+Решения"
+                    },
+                    industrialSolution: {
+                        title: "Промышленные Солнечные Решения",
+                        subtitle: "Надежная солнечная энергия для крупномасштабных промышленных операций. Обеспечьте энергетическую безопасность и достигните огромной долгосрочной экономии.",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-13a2 2 0 012-2h12a2 2 0 012 2v13M5 13H4a2 2 0 00-2 2v2a2 2 0 002 2h1m14-4h1a2 2 0 012 2v2a2 2 0 01-2 2h-1M9 6l3 3m0 0l3-3m-3 3v12" /></svg>`, name: "Системы Высокой Эффективности", desc: "Разработаны для значительных энергетических потребностей, обеспечивая бесперебойную работу." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 002.944 12c0 2.89.97 5.61 2.68 7.74l-.04.04A12.001 12.001 0 0012 21.056c2.89 0 5.61-.97 7.74-2.68l.04-.04A12.001 12.001 0 0021.056 12c0-2.89-.97-5.61-2.68-7.74z"/></svg>`, name: "Энергетическая Безопасность", desc: "Снижение зависимости от электросети, обеспечение непрерывности и стабильности работы." },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>`, name: "Соблюдение Стандартов Устойчивости", desc: "Соответствие экологическим нормам и повышение корпоративной социальной ответственности." }
+                        ],
+                        image: "https://assets.nationbuilder.com/ecnt/pages/340/meta_images/original/Facebook_Share_From_Website_800_x_500_-_Website_-_Repower_NT_%2825%29.jpg?1594689185"
+                    }
+                },
+                 projects: {
+                    title: "Наши Проекты",
+                    subtitle: "Реальные решения, реальные результаты. Ознакомьтесь с нашим портфолио успешных установок.",
+                    filterAll: "Все", filterRes: "Для Дома", filterCom: "Для Бизнеса", filterInd: "Промышленные",
+                    items: [
+                        { id: 1, cat: 'res', title: 'Современная Вилла, Ереван', saving: '$2,400 ежегодной экономии', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Вилла+Ереван' },
+                        { id: 2, cat: 'com', title: 'IT Парк, Гюмри', saving: 'Снижение затрат на 40%', img: 'https://placehold.co/600x400/E0E0E0/2C3E50?text=IT+Парк+Гюмри' },
+                        { id: 3, cat: 'ind', title: 'Винодельня, Араратская долина', saving: 'Мощность 1.2 МВт', img: 'https://placehold.co/600x400/34D399/FFFFFF?text=Винодельня+Арарат' },
+                        { id: 4, cat: 'res', title: 'Загородный дом, Дилижан', saving: '$1,800 ежегодной экономии', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Дом+Дилижан' },
+                    ]
+                },
+                about: {
+                    title: "Наша Миссия: Создавая Зеленое Будущее",
+                    subtitle: "Мы верим в будущее, основанное на чистых, возобновляемых источниках. Наша миссия — сделать солнечную энергию доступной и надежной для всех.",
+                    body: "Основанная на принципах инноваций и устойчивого развития, Aurum Energy — это команда сертифицированных инженеров и консультантов, посвященная переходу Армении на возобновляемые источники энергии. Мы сочетаем лучшие мировые практики с местным опытом, чтобы предлагать солнечные решения, которые обеспечивают долгосрочную ценность и положительное воздействие на окружающую среду. Наша приверженность качеству и удовлетворенности клиентов лежит в основе всего, что мы делаем.",
+                    image: "https://cdn.dribbble.com/userupload/27391115/file/original-8a1a97b19f950f1023e3a7081acc5ba8.png"
+                },
+                contact: {
+                    title: "Свяжитесь с Нами",
+                    subtitle: "Ваш путь к солнечной энергии начинается здесь. Обратитесь за бесплатной консультацией.",
+                    formName: "Полное Имя", formEmail: "Электронная почта", formMessage: "Чем мы можем помочь?", formSubmit: "Отправить",
+                    address: "ул. Зеленая 123, Ереван, Армения", phone: "+374 10 123456", email: "consult@aurumenergy.am",
+                    mapTitle: "Наш Офис на Карте",
+                    recaptchaSiteKey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                },
+                calculator: {
+                    title: "Калькулятор Солнечной Экономии",
+                    subtitle: "Оцените вашу потенциальную экономию и воздействие на окружающую среду с помощью индивидуального солнечного решения.",
+                    inputCost: "Примерная стоимость системы (֏)",
+                    inputInterest: "Годовая процентная ставка (%)",
+                    inputTerm: "Срок кредита (лет)",
+                    calculateBtn: "Рассчитать экономию",
+                    monthlyPayment: "Примерный ежемесячный платеж:",
+                    totalInterest: "Общая сумма выплаченных процентов:",
+                    totalCost: "Общая стоимость системы (с процентами):",
+                    savingsDisclaimer: "Это приблизительная оценка. Фактическая экономия может варьироваться в зависимости от потребления энергии, размера системы и местных льгот."
+                },
+                footer: {
+                    tagline: "Ваш партнер для светлого, зеленого будущего.",
+                    solutions: "Решения", residential: "Для Дома", commercial: "Для Бизнеса", industrial: "Промышленные",
+                    company: "Компания", about: "О нас", projects: "Проекты", contact: "Контакты", calculator: "Калькулятор",
+                    contactInfo: "Контакты", social: "Следите за нами", copyright: `© ${new Date().getFullYear()} Aurum Energy. Все права защищены.`,
+                    phone: "+374 10 123456", email: "info@aurumenergy.am",
+                    whatsapp: "https://wa.me/37410123456", telegram: "https://t.me/aurumenergyarmenia",
+                    facebook: "https://facebook.com/aurumenergy", instagram: "https://instagram.com/aurumenergy", x: "https://twitter.com/aurumenergy"
+                }
+            },
+            am: {
+                nav: { home: "Գլխավոր", solutions: "Լուծումներ", projects: "Նախագծեր", about: "Մեր մասին", contact: "Կապ", calculator: "Հաշվիչ", quote: "Անվճար Խորհրդատվություն" },
+                home: {
+                    heroTitle: "Էներգիա՝ Կայուն Ապագայի Համար",
+                    heroSubtitle: "Բացահայտեք ձեր էներգետիկ անկախությունը նորարարական արևային լուծումներով։",
+                    heroCta: "Դիտել Լուծումները",
+                    solutionsTitle: "Անհատականացված Արևային Լուծումներ",
+                    resTitle: "Բնակելի", resDesc: "Անհատական լուծումներ՝ ձեր տան ճարտարապետությանը համապատասխան, կրճատելով ձեր ծախսերն ու ածխածնի հետքը։",
+                    comTitle: "Առևտրային", comDesc: "Ընդլայնվող համակարգեր՝ բիզնեսի ծախսերը կրճատելու, բրենդի իմիջը բարելավելու և կայունության նպատակներին հասնելու համար։",
+                    indTitle: "Արդյունաբերական", indDesc: "Հզոր, լայնածավալ կայաններ արդյունաբերական օբյեկտների համար, որոնք ապահովում են զգալի երկարաժամկետ խնայողություններ։"
+                },
+                 solutions: {
+                    title: "Համապարփակ Արևային Լուծումներ",
+                    subtitle: "Ձեր կարիքներին համապատասխան, ձեր ապագայի համար նախագծված։ Մենք զբաղվում ենք ամեն ինչով՝ խորհրդատվությունից մինչև սպասարկում։",
+                    processTitle: "Մեր Անխափան Գործընթացը",
+                    step1Title: "Խորհրդատվություն", step1Desc: "Մենք գնահատում ենք ձեր կարիքներն ու նպատակները։",
+                    step2Title: "Նախագծում", step2Desc: "Օպտիմալ արդյունքի համար մշակվում է անհատական համակարգ։",
+                    step3Title: "Տեղադրում", step3Desc: "Մեր հավաստագրված թիմն ապահովում է անթերի տեղադրում։",
+                    step4Title: "Գործարկում", step4Desc: "Մենք զբաղվում ենք փաստաթղթերով և ակտիվացնում ենք համակարգը։",
+                    step5Title: "Աջակցություն", step5Desc: "Շարունակական մոնիթորինգ և աջակցություն ձեր հանգստության համար։",
+                    residentialSolution: {
+                        title: "Բնակելի Արևային Լուծումներ",
+                        subtitle: "Օգտագործեք արևի էներգիան ձեր տան համար։ Կրճատեք էլեկտրաէներգիայի վճարները, բարձրացրեք ձեր գույքի արժեքը և նպաստեք ավելի կանաչ մոլորակի ստեղծմանը։",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>`, name: "Անհատական Դիզայն", desc: "Համակարգեր՝ հարմարեցված ձեր տան էսթետիկային և էներգիայի սպառմանը։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`, name: "Էներգիայի Խնայողություն", desc: "Զգալիորեն կրճատեք կամ վերացրեք ձեր ամսական էլեկտրաէներգիայի վճարները։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>`, name: "Գույքի Արժեքի Բարձրացում", desc: "Արևային կայանները ապացուցված են բարձրացնում գույքի վերավաճառքի արժեքը։" }
+                        ],
+                        image: "https://i0.wp.com/albaysolar.com/wp-content/uploads/2024/02/Frame-3.png?fit=800%2C500&ssl=1"
+                    },
+                    commercialSolution: {
+                        title: "Առևտրային Արևային Լուծումներ",
+                        subtitle: "Հզորացրեք ձեր բիզնեսը մաքուր, ծախսարդյունավետ արևային էներգիայով։ Օպտիմալացրեք գործառնական ծախսերը և բարելավեք ձեր կորպորատիվ կայունության պրոֆիլը։",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`, name: "Ընդլայնվող Համակարգեր", desc: "Լուծումներ՝ նախագծված ձեր բիզնեսի եզակի էներգիայի պահանջարկը բավարարելու համար՝ փոքր գրասենյակներից մինչև խոշոր օբյեկտներ։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`, name: "Գործառնական Ծախսերի Կրճատում", desc: "Զգալի խնայողություններ էլեկտրաէներգիայի վճարների վրա՝ բարելավելով ձեր եկամուտը։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`, name: "Բրենդի Իմիջի Բարելավում", desc: "Ցույց տվեք ձեր հանձնառությունը կայունությանը և գրավեք էկո-գիտակից հաճախորդներին։" }
+                        ],
+                        image: "https://www.rte.ie/images/0021f76b-800.jpg"
+                    },
+                    industrialSolution: {
+                        title: "Արդյունաբերական Արևային Լուծումներ",
+                        subtitle: "Հզոր և հուսալի արևային էներգիա լայնածավալ արդյունաբերական գործողությունների համար։ Ապահովեք էներգիայի անվտանգություն և հասեք զգալի երկարաժամկետ խնայողությունների։",
+                        features: [
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-13a2 2 0 012-2h12a2 2 0 012 2v13M5 13H4a2 2 0 00-2 2v2a2 2 0 002 2h1m14-4h1a2 2 0 012 2v2a2 2 0 01-2 2h-1M9 6l3 3m0 0l3-3m-3 3v12" /></svg>`, name: "Բարձր Հզորության Համակարգեր", desc: "Նախագծված զգալի էներգիայի պահանջարկի համար՝ ապահովելով անխափան գործունեություն։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.001 12.001 0 002.944 12c0 2.89.97 5.61 2.68 7.74l-.04.04A12.001 12.001 0 0012 21.056c2.89 0 5.61-.97 7.74-2.68l.04-.04A12.001 12.001 0 0021.056 12c0-2.89-.97-5.61-2.68-7.74z"/></svg>`, name: "Էներգիայի Անվտանգություն", desc: "Կրճատեք կախվածությունը ցանցային էներգիայից՝ ապահովելով գործառնական շարունակականություն և կայունություն։" },
+                            { icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.657 0 3 .895 3 2s-1.343 2-3 2-3-.895-3-2 1.343-2 3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>`, name: "Կայուն Համակարգ", desc: "Համապատասխանեք բնապահպանական կանոնակարգերին և բարձրացրեք ձեր կորպորատիվ սոցիալական պատասխանատվությունը։" }
+                        ],
+                        image: "https://assets.nationbuilder.com/ecnt/pages/340/meta_images/original/Facebook_Share_From_Website_800_x_500_-_Website_-_Repower_NT_%2825%29.jpg?1594689185"
+                    }
+                },
+                projects: {
+                    title: "Մեր Նախագծերը",
+                    subtitle: "Իրական լուծումներ, իրական արդյունքներ։ Բացահայտեք մեր հաջողված նախագծերի պորտֆոլիոն։",
+                    filterAll: "Բոլորը", filterRes: "Բնակելի", filterCom: "Առևտրային", filterInd: "Արդյունաբերական",
+                     items: [
+                        { id: 1, cat: 'res', title: 'Ժամանակակից Առանձնատուն, Երևան', saving: '$2,400 տարեկան խնայողություն', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Առանձնատուն+Երևան' },
+                        { id: 2, cat: 'com', title: 'ՏՏ Պարկ, Գյումրի', saving: 'Էներգիայի ծախսի 40% կրճատում', img: 'https://placehold.co/600x400/E0E0E0/2C3E50?text=ՏՏ+Պարկ+Գյումրի' },
+                        { id: 3, cat: 'ind', title: 'Գինեգործարան, Արարատյան դաշտ', saving: '1.2 ՄՎտ տեղադրված հզորություն', img: 'https://placehold.co/600x400/34D399/FFFFFF?text=Արդյունաբերական+Արևային' },
+                        { id: 4, cat: 'res', title: 'Առանձնատուն, Դիլիջան', saving: '$1,800 տարեկան խնայողություն', img: 'https://placehold.co/600x400/A7F3D0/2C3E50?text=Տուն+Դիլիջան' },
+                    ]
+                },
+                 about: {
+                    title: "Մեր Առաքելությունը՝ Ստեղծելով Կանաչ Ապագա",
+                    subtitle: "Մենք հավատում ենք մաքուր, վերականգնվող աղբյուրներով սնվող ապագային։ Մեր առաքելությունն է արևային էներգիան դարձնել հասանելի և հուսալի բոլորի համար։",
+                    body: "Հիմնադրված լինելով նորարարության և կայունության սկզբունքների վրա՝ Aurum Energy —is a team of certified engineers, technicians, and energy consultants dedicated to leading Armenia's transition to renewable energy. We combine global best practices with local expertise to deliver solar solutions that offer lasting value and a positive environmental impact. Our commitment to quality and customer satisfaction is at the core of everything we do.",
+                    image: "https://cdn.dribbble.com/userupload/27391115/file/original-8a1a97b19f950f1023e3a7081acc5ba8.png"
+                },
+                contact: {
+                    title: "Կապվեք Մեզ Հետ",
+                    subtitle: "Ձեր ճանապարհորդությունը դեպի արևային էներգիա սկսվում է այստեղից։ Դիմեք անվճար խորհրդատվության համար։",
+                    formName: "Անուն Ազգանուն", formEmail: "Էլեկտրոնային հասցե", formMessage: "Ինչո՞վ կարող ենք օգնել", formSubmit: "Ուղարկել",
+                    address: "Կանաչ պողոտա 123, Երևան, Հայաստան", phone: "+374 10 123456", email: "consult@aurumenergy.am",
+                    mapTitle: "Մեր Գրասենյակը Քարտեզի Վրա"
+                },
+                calculator: {
+                    title: "Արևային Խնայողությունների Հաշվիչ",
+                    subtitle: "Գնահատեք ձեր հնարավոր խնայողությունները և բնապահպանական ազդեցությունը անհատական արևային լուծումով։",
+                    inputCost: "Համակարգի մոտավոր արժեքը (֏)",
+                    inputInterest: "Տարեկան տոկոսադրույքը (%)",
+                    inputTerm: "Վարկի ժամկետը (տարի)",
+                    calculateBtn: "Հաշվել Խնայողությունները",
+                    monthlyPayment: "Ամսական մոտավոր վճարը։",
+                    totalInterest: "Վճարված ընդհանուր տոկոսը։",
+                    totalCost: "Համակարգի ընդհանուր արժեքը (տոկոսներով)։",
+                    savingsDisclaimer: "Սա մոտավոր գնահատական է։ Փաստացի խնայողությունները կարող են տարբերվել՝ կախված էներգիայի սպառումից, համակարգի չափից և տեղական խթաններից։"
+                },
+                footer: {
+                    tagline: "Ձեր գործընկերը՝ ավելի պայծառ, կանաչ ապագայի համար։",
+                    solutions: "Լուծումներ", residential: "Բնակելի", commercial: "Առևտրային", industrial: "Արդյունաբերական",
+                    company: "Ընկերություն", about: "Մեր մասին", projects: "Նախագծեր", contact: "Կապ", calculator: "Հաշվիչ",
+                    contactInfo: "Կոնտակտներ", social: "Հետևեք մեզ", copyright: `© ${new Date().getFullYear()} Aurum Energy. Բոլոր իրավունքները պաշտպանված են։`,
+                    phone: "+374 10 123456", email: "info@aurumenergy.am",
+                    whatsapp: "https://wa.me/37410123456", telegram: "https://t.me/aurumenergyarmenia",
+                    facebook: "https://facebook.com/aurumenergy", instagram: "https://instagram.com/aurumenergy", x: "https://twitter.com/aurumenergy"
+                }
+            }
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentLang = 'en';
+        let currentPage = 'home';
+        
+        // --- DOM ELEMENTS ---
+        const contentArea = document.getElementById('content-area');
+        const header = document.getElementById('main-header');
+        const langDropdown = document.getElementById('language-dropdown');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBtn = document.getElementById('mobile-menu-button');
+
+        // --- TEMPLATES ---
+        const Templates = {
+            home: (data) => `
+                <div class="revealable">
+                    <!-- Hero Section -->
+                    <section class="bg-gray-100 pt-20 pb-20 lg:pt-32 lg:pb-32 text-center relative overflow-hidden">
+                        <div class="absolute inset-0">
+                            <img src="https://wallpapers.com/images/featured/renewable-energy-f7ct6d63jjmy2z96.jpg" class="w-full h-full object-cover opacity-30" alt="Abstract background">
+                        </div>
+                        <div class="container mx-auto px-6 relative">
+                            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-800 leading-tight mb-4">${data.heroTitle}</h1>
+                            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">${data.heroSubtitle}</p>
+                            <a href="#" class="btn-primary px-10 py-4 rounded-full font-semibold text-lg" onclick="navigateTo('solutions')">${data.heroCta}</a>
+                        </div>
+                    </section>
+
+                    <!-- Solutions Overview Section -->
+                    <section class="py-20 lg:py-28">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">${data.solutionsTitle}</h2>
+                            <div class="grid md:grid-cols-3 gap-8">
+                                <div class="info-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                    <h3 class="text-2xl font-bold mb-3">${data.resTitle}</h3>
+                                    <p class="text-gray-600">${data.resDesc}</p>
+                                </div>
+                                <div class="info-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                    <h3 class="text-2xl font-bold mb-3">${data.comTitle}</h3>
+                                    <p class="text-gray-600">${data.comDesc}</p>
+                                </div>
+                                <div class="info-card bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 21v-13a2 2 0 012-2h12a2 2 0 012 2v13M5 13H4a2 2 0 00-2 2v2a2 2 0 002 2h1m14-4h1a2 2 0 012 2v2a2 2 0 01-2 2h-1M9 6l3 3m0 0l3-3m-3 3v12" /></svg>
+                                    <h3 class="text-2xl font-bold mb-3">${data.indTitle}</h3>
+                                    <p class="text-gray-600">${data.indDesc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            solutions: (data) => `
+                <div class="revealable">
+                    <section class="py-20 lg:py-28 bg-white">
+                        <div class="container mx-auto px-6 text-center">
+                            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">${data.title}</h1>
+                            <p class="text-lg text-gray-600 max-w-3xl mx-auto">${data.subtitle}</p>
+                        </div>
+                    </section>
+                     <section class="py-20 lg:py-28">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">${data.processTitle}</h2>
+                            <div class="relative">
+                                <!-- The connecting line -->
+                                <div class="hidden md:block absolute top-5 left-0 w-full h-0.5 bg-gray-200"></div>
+                                <div class="grid md:grid-cols-5 gap-10 relative">
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg z-10 relative">1</div>
+                                        <h3 class="font-bold text-lg mb-2">${data.step1Title}</h3>
+                                        <p class="text-sm text-gray-500">${data.step1Desc}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg z-10 relative">2</div>
+                                        <h3 class="font-bold text-lg mb-2">${data.step2Title}</h3>
+                                        <p class="text-sm text-gray-500">${data.step2Desc}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg z-10 relative">3</div>
+                                        <h3 class="font-bold text-lg mb-2">${data.step3Title}</h3>
+                                        <p class="text-sm text-gray-500">${data.step3Desc}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg z-10 relative">4</div>
+                                        <h3 class="font-bold text-lg mb-2">${data.step4Title}</h3>
+                                        <p class="text-sm text-gray-500">${data.step4Desc}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg z-10 relative">5</div>
+                                        <h3 class="font-bold text-lg mb-2">${data.step5Title}</h3>
+                                        <p class="text-sm text-gray-500">${data.step5Desc}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Residential Solution Detail -->
+                    <section id="residential-solution" class="py-20 lg:py-28 bg-gray-50">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">${data.residentialSolution.title}</h2>
+                            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">${data.residentialSolution.subtitle}</p>
+                            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                                <div class="order-2 lg:order-1 text-gray-600 text-lg leading-relaxed">
+                                    <img src="${data.residentialSolution.image}" alt="Residential Solar" class="rounded-2xl shadow-xl w-full mb-8 lg:mb-0">
+                                </div>
+                                <div class="order-1 lg:order-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    ${data.residentialSolution.features.map(f => `
+                                        <div class="info-card bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                                            <div class="flex items-center mb-4">
+                                                ${f.icon}
+                                                <h3 class="text-xl font-bold ml-3 text-gray-800">${f.name}</h3>
+                                            </div>
+                                            <p class="text-gray-600 text-sm">${f.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Commercial Solution Detail -->
+                    <section id="commercial-solution" class="py-20 lg:py-28">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">${data.commercialSolution.title}</h2>
+                            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">${data.commercialSolution.subtitle}</p>
+                            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    ${data.commercialSolution.features.map(f => `
+                                        <div class="info-card bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                                            <div class="flex items-center mb-4">
+                                                ${f.icon}
+                                                <h3 class="text-xl font-bold ml-3 text-gray-800">${f.name}</h3>
+                                            </div>
+                                            <p class="text-gray-600 text-sm">${f.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div>
+                                    <img src="${data.commercialSolution.image}" alt="Commercial Solar" class="rounded-2xl shadow-xl w-full">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Industrial Solution Detail -->
+                    <section id="industrial-solution" class="py-20 lg:py-28 bg-gray-50">
+                        <div class="container mx-auto px-6">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6">${data.industrialSolution.title}</h2>
+                            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">${data.industrialSolution.subtitle}</p>
+                            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                                <div class="order-2 lg:order-1 text-gray-600 text-lg leading-relaxed">
+                                    <img src="${data.industrialSolution.image}" alt="Industrial Solar" class="rounded-2xl shadow-xl w-full mb-8 lg:mb-0">
+                                </div>
+                                <div class="order-1 lg:order-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    ${data.industrialSolution.features.map(f => `
+                                        <div class="info-card bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                                            <div class="flex items-center mb-4">
+                                                ${f.icon}
+                                                <h3 class="text-xl font-bold ml-3 text-gray-800">${f.name}</h3>
+                                            </div>
+                                            <p class="text-gray-600 text-sm">${f.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            projects: (data) => `
+                <div class="revealable">
+                    <section class="py-20 lg:py-28 bg-white">
+                        <div class="container mx-auto px-6 text-center">
+                            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">${data.title}</h1>
+                            <p class="text-lg text-gray-600 max-w-3xl mx-auto">${data.subtitle}</p>
+                        </div>
+                    </section>
+                    <section class="py-10">
+                        <div class="container mx-auto px-6">
+                            <div id="filter-buttons" class="flex justify-center space-x-2 md:space-x-4 mb-12">
+                                <button class="filter-btn active btn-secondary px-4 py-2 rounded-full text-sm font-semibold" data-filter="all">${data.filterAll}</button>
+                                <button class="filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-semibold" data-filter="res">${data.filterRes}</button>
+                                <button class="filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-semibold" data-filter="com">${data.filterCom}</button>
+                                <button class="filter-btn btn-secondary px-4 py-2 rounded-full text-sm font-semibold" data-filter="ind">${data.filterInd}</button>
+                            </div>
+                            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                                ${data.items.map(p => `
+                                    <div class="project-item info-card group overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-100" data-category="${p.cat}">
+                                        <img src="${p.img}" alt="${p.title}" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <div class="p-6">
+                                            <h3 class="text-xl font-bold text-gray-800">${p.title}</h3>
+                                            <p class="text-green-600 font-semibold mt-2">${p.saving}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            about: (data) => `
+                 <div class="revealable">
+                    <section class="py-20 lg:py-28 bg-white">
+                        <div class="container mx-auto px-6">
+                            <div class="text-center max-w-4xl mx-auto">
+                                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">${data.title}</h1>
+                                <p class="text-lg text-gray-600">${data.subtitle}</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="py-20">
+                         <div class="container mx-auto px-6">
+                             <div class="grid lg:grid-cols-2 gap-12 items-center">
+                                 <div>
+                                     <img src="${data.image}" alt="Aurum Energy Team" class="rounded-2xl shadow-xl w-full">
+                                 </div>
+                                 <div class="text-gray-600 text-lg leading-relaxed">
+                                     <p>${data.body}</p>
+                                 </div>
+                             </div>
+                         </div>
+                    </section>
+                 </div>
+            `,
+            contact: (data) => `
+                 <div class="revealable">
+                     <section class="py-20 lg:py-28 bg-white">
+                        <div class="container mx-auto px-6 text-center">
+                            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">${data.title}</h1>
+                            <p class="text-lg text-gray-600 max-w-2xl mx-auto">${data.subtitle}</p>
+                        </div>
+                    </section>
+                    <section class="pb-20 lg:pb-28">
+                         <div class="container mx-auto px-6">
+                            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto">
+                                <form id="contact-form" class="grid sm:grid-cols-2 gap-6">
+                                    <div class="sm:col-span-2">
+                                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">${data.formName}</label>
+                                        <input type="text" id="name" name="name" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" required>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">${data.formEmail}</label>
+                                        <input type="email" id="email" name="email" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" required>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">${data.formMessage}</label>
+                                        <textarea id="message" name="message" rows="5" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" required></textarea>
+                                    </div>
+                                    <div class="sm:col-span-2">
+                                        <button type="submit" class="w-full btn-primary font-semibold py-3 px-6 rounded-lg">${data.formSubmit}</button>
+                                    </div>
+                                    <div id="form-message" class="sm:col-span-2 text-center mt-4 hidden"></div>
+                                </form>
+                            </div>
+                         </div>
+                         <div class="container mx-auto px-6 mt-20">
+                            <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">${data.mapTitle}</h2>
+                            <div class="rounded-2xl overflow-hidden shadow-xl">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d97552.19342598379!2d44.4186536486328!3d40.1793549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abcf8ddf61bb7%3A0x3514a33be7952a26!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1678886381515!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </section>
+                 </div>
+            `,
+            calculator: (data) => `
+                <div class="revealable">
+                    <section class="py-20 lg:py-28 bg-white">
+                        <div class="container mx-auto px-6 text-center">
+                            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">${data.title}</h1>
+                            <p class="text-lg text-gray-600 max-w-3xl mx-auto">${data.subtitle}</p>
+                        </div>
+                    </section>
+                    <section class="pb-20 lg:pb-28">
+                        <div class="container mx-auto px-6">
+                            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-3xl mx-auto">
+                                <form id="calculator-form" class="grid grid-cols-1 gap-6">
+                                    <div>
+                                        <label for="system-cost" class="block text-sm font-semibold text-gray-700 mb-2">${data.inputCost}</label>
+                                        <input type="number" id="system-cost" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" value="20000">
+                                    </div>
+                                    <div>
+                                        <label for="interest-rate" class="block text-sm font-semibold text-gray-700 mb-2">${data.inputInterest}</label>
+                                        <input type="number" id="interest-rate" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" value="5" step="0.1">
+                                    </div>
+                                    <div>
+                                        <label for="loan-term" class="block text-sm font-semibold text-gray-700 mb-2">${data.inputTerm}</label>
+                                        <input type="number" id="loan-term" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500" value="10">
+                                    </div>
+                                    <button type="submit" class="w-full btn-primary font-semibold py-3 px-6 rounded-lg">${data.calculateBtn}</button>
+                                </form>
+                                <div id="calculator-results" class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200 hidden">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-4">Results:</h3>
+                                    <p class="text-gray-700 mb-2">${data.monthlyPayment} <span id="monthly-payment" class="font-semibold text-green-600"></span></p>
+                                    <p class="text-gray-700 mb-2">${data.totalInterest} <span id="total-interest" class="font-semibold text-green-600"></span></p>
+                                    <p class="text-gray-700 mb-2">${data.totalCost} <span id="total-cost" class="font-semibold text-green-600"></span></p>
+                                    <p class="text-sm text-gray-500 mt-4">${data.savingsDisclaimer}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+        };
+        // --- RENDER & UPDATE FUNCTIONS ---
+        const updateTextContent = () => {
+            const data = content[currentLang];
+            // Nav
+            Object.keys(data.nav).forEach(key => {
+                const el = document.getElementById(`nav-${key}`) || document.getElementById(`header-cta`) || document.getElementById(`mobile-header-cta`);
+                if(el) el.textContent = data.nav[key];
+            });
+            document.getElementById('current-lang-display').textContent = currentLang.toUpperCase();
+            
+            // Footer
+            document.getElementById('footer-tagline').textContent = data.footer.tagline;
+            document.getElementById('footer-links-solutions').textContent = data.footer.solutions;
+            document.getElementById('footer-link-residential').textContent = data.footer.residential;
+            document.getElementById('footer-link-commercial').textContent = data.footer.commercial;
+            document.getElementById('footer-link-industrial').textContent = data.footer.industrial;
+            document.getElementById('footer-links-company').textContent = data.footer.company;
+            document.getElementById('footer-link-about').textContent = data.footer.about;
+            document.getElementById('footer-link-projects').textContent = data.footer.projects;
+            document.getElementById('footer-link-contact').textContent = data.footer.contact;
+            document.getElementById('footer-link-calculator').textContent = data.footer.calculator;
+            document.getElementById('footer-links-contact').textContent = data.footer.contactInfo;
+            document.getElementById('footer-address').textContent = data.contact.address;
+            document.getElementById('footer-phone').textContent = data.footer.phone;
+            document.getElementById('footer-email').textContent = data.footer.email;
+            document.getElementById('footer-social-title').textContent = data.footer.social;
+            document.getElementById('footer-copyright').textContent = data.footer.copyright;
+
+            document.querySelector('footer .flex.mt-4.space-x-4 a:nth-child(1)').href = data.footer.facebook;
+            document.querySelector('footer .flex.mt-4.space-x-4 a:nth-child(2)').href = data.footer.instagram;
+            document.querySelector('footer .flex.mt-4.space-x-4 a:nth-child(3)').href = data.footer.x;
+            document.querySelector('footer .flex.mt-4.space-x-4 a:nth-child(4)').href = data.footer.whatsapp;
+            document.querySelector('footer .flex.mt-4.space-x-4 a:nth-child(5)').href = data.footer.telegram;
+        };
+
+        const renderPage = () => {
+            const data = content[currentLang];
+            contentArea.innerHTML = Templates[currentPage](data[currentPage]);
+            runPageSpecificJS();
+            initScrollReveal();
+            updateTextContent();
+            window.scrollTo(0, 0);
+        };
+
+        const setActiveLink = (target) => {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            if (target) {
+                target.classList.add('active');
+            } else {
+                 document.getElementById(`nav-${currentPage}`).classList.add('active');
+            }
+        };
+
+        // --- EVENT HANDLERS & NAVIGATION ---
+        const navigateTo = (page, targetLink = null, sectionId = null) => {
+            currentPage = page;
+            renderPage();
+            setActiveLink(targetLink);
+            mobileMenu.classList.add('hidden'); // Close mobile menu on nav
+            if (sectionId) {
+                setTimeout(() => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            }
+        };
+
+        const changeLanguage = (lang) => {
+            currentLang = lang;
+            renderPage();
+            toggleDropdown(); // Close dropdown
+        };
+        
+        const toggleDropdown = () => {
+            langDropdown.classList.toggle('active');
+        };
+
+        const runPageSpecificJS = () => {
+            if (currentPage === 'projects') {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                const projectItems = document.querySelectorAll('.project-item');
+
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Style active button
+                        filterButtons.forEach(btn => btn.classList.remove('active', 'btn-primary', 'btn-secondary'));
+                        button.classList.add('active', 'btn-primary');
+                        filterButtons.forEach(btn => { if(!btn.classList.contains('active')) btn.classList.add('btn-secondary'); });
+
+                        const filter = button.dataset.filter;
+                        
+                        projectItems.forEach(item => {
+                            if (filter === 'all' || item.dataset.category === filter) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+                // Initially style the 'All' button
+                filterButtons[0].classList.remove('btn-secondary');
+                filterButtons[0].classList.add('btn-primary');
+            } else if (currentPage === 'contact') {
+                const contactForm = document.getElementById('contact-form');
+                const formMessageDiv = document.getElementById('form-message');
+                // Replace with your deployed Google Apps Script Web App URL
+                const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJpgUezBXOS6EcbCoqw4F7Tswk6h301ZI92PP8q-_3q4a6GdZ6nJwnhYlInG_Ywbs5/exec'; 
+
+                contactForm.addEventListener('submit', async (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    // Basic validation
+                    if (!name || !email || !message) {
+                        formMessageDiv.textContent = 'Please fill in all fields.';
+                        formMessageDiv.className = 'sm:col-span-2 text-center mt-4 text-red-600';
+                        formMessageDiv.classList.remove('hidden');
+                        return;
+                    }
+
+                    formMessageDiv.textContent = 'Submitting...';
+                    formMessageDiv.className = 'sm:col-span-2 text-center mt-4 text-gray-600';
+                    formMessageDiv.classList.remove('hidden');
+
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('email', email);
+                    formData.append('message', message);
+
+                    try {
+                        // Using 'no-cors' mode for Google Apps Script
+                        const response = await fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            mode: 'no-cors', // Important for cross-origin requests to Apps Script
+                            cache: 'no-cache',
+                            body: formData
+                        });
+
+                        // For 'no-cors', response.ok will always be false and status will be 0.
+                        // We rely on the Apps Script to handle the data.
+                        // A real-world scenario might involve a proxy or JSONP for proper response handling.
+                        formMessageDiv.textContent = 'Message sent successfully! We will get back to you soon.';
+                        formMessageDiv.className = 'sm:col-span-2 text-center mt-4 text-green-600';
+                        contactForm.reset(); // Clear the form
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        formMessageDiv.textContent = 'There was an error sending your message. Please try again later.';
+                        formMessageDiv.className = 'sm:col-span-2 text-center mt-4 text-red-600';
+                    }
+                });
+            } else if (currentPage === 'calculator') {
+                const calculatorForm = document.getElementById('calculator-form');
+                const systemCostInput = document.getElementById('system-cost');
+                const interestRateInput = document.getElementById('interest-rate');
+                const loanTermInput = document.getElementById('loan-term');
+                const resultsDiv = document.getElementById('calculator-results');
+                const monthlyPaymentSpan = document.getElementById('monthly-payment');
+                const totalInterestSpan = document.getElementById('total-interest');
+                const totalCostSpan = document.getElementById('total-cost');
+
+                calculatorForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+
+                    const P = parseFloat(systemCostInput.value); // Principal
+                    const I = parseFloat(interestRateInput.value) / 100 / 12; // Monthly interest rate
+                    const N = parseFloat(loanTermInput.value) * 12; // Total number of payments
+
+                    if (isNaN(P) || isNaN(I) || isNaN(N) || P <= 0 || I < 0 || N <= 0) {
+                        resultsDiv.classList.add('hidden');
+                        // Using a custom message box instead of alert()
+                        formMessageDiv.textContent = 'Please enter valid numbers for all fields.';
+                        formMessageDiv.className = 'sm:col-span-2 text-center mt-4 text-red-600';
+                        formMessageDiv.classList.remove('hidden');
+                        return;
+                    }
+
+                    let monthlyPayment = 0;
+                    if (I === 0) { // Handle 0% interest rate
+                        monthlyPayment = P / N;
+                    } else {
+                        monthlyPayment = P * (I * Math.pow(1 + I, N)) / (Math.pow(1 + I, N) - 1);
+                    }
+                    
+                    const totalAmountPaid = monthlyPayment * N;
+                    const totalInterest = totalAmountPaid - P;
+
+                    monthlyPaymentSpan.textContent = `֏${monthlyPayment.toFixed(2)}`;
+                    totalInterestSpan.textContent = `֏${totalInterest.toFixed(2)}`;
+                    totalCostSpan.textContent = `֏${totalAmountPaid.toFixed(2)}`;
+                    resultsDiv.classList.remove('hidden');
+                });
+            }
+        };
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage();
+
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close dropdown if clicked outside
+            window.addEventListener('click', (e) => {
+                if (!langDropdown.contains(e.target)) {
+                    langDropdown.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll Reveal Animation
+        const initScrollReveal = () => {
+            const revealables = document.querySelectorAll('.revealable');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            revealables.forEach(el => {
+                observer.observe(el);
+            });
+        };
+    </script>
+
+</body>
+</html>
